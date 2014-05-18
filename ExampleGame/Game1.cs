@@ -16,6 +16,9 @@ namespace ExampleGame
       GraphicsDeviceManager graphics;
       SpriteBatch spriteBatch;
 
+      private Texture2D _floor;
+      private Texture2D _wall;
+
       public Game1()
          : base()
       {
@@ -47,6 +50,8 @@ namespace ExampleGame
          spriteBatch = new SpriteBatch( GraphicsDevice );
 
          // TODO: use this.Content to load your game content here
+         _floor = Content.Load<Texture2D>( "Floor" );
+         _wall = Content.Load<Texture2D>( "Wall" );
       }
 
       /// <summary>
@@ -82,6 +87,12 @@ namespace ExampleGame
          GraphicsDevice.Clear( Color.CornflowerBlue );
 
          // TODO: Add your drawing code here
+         spriteBatch.Begin( SpriteSortMode.BackToFront, BlendState.AlphaBlend );
+
+         spriteBatch.Draw( _wall, Vector2.Zero, Color.White );
+         spriteBatch.Draw( _floor, new Vector2( 64, 64 ), Color.White );  
+
+         spriteBatch.End();
 
          base.Draw( gameTime );
       }
