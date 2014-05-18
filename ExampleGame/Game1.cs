@@ -92,8 +92,20 @@ namespace ExampleGame
          // TODO: Add your drawing code here
          spriteBatch.Begin( SpriteSortMode.BackToFront, BlendState.AlphaBlend );
 
-         spriteBatch.Draw( _wall, Vector2.Zero, Color.White );
-         spriteBatch.Draw( _floor, new Vector2( 64, 64 ), Color.White );  
+         int sizeOfSprites = 64;
+         foreach ( Cell cell in _map.GetAllCells() )
+         {
+            if ( cell.IsWalkable )
+            {
+               var position = new Vector2( cell.X * sizeOfSprites, cell.Y * sizeOfSprites );
+               spriteBatch.Draw( _floor, position, Color.White );
+            }
+            else
+            {
+               var position = new Vector2( cell.X * sizeOfSprites, cell.Y * sizeOfSprites );
+               spriteBatch.Draw( _wall, position, Color.White );
+            }
+         }
 
          spriteBatch.End();
 
