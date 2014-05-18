@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using RogueSharp;
 
 #endregion
 
@@ -18,6 +18,7 @@ namespace ExampleGame
 
       private Texture2D _floor;
       private Texture2D _wall;
+      private IMap _map;
 
       public Game1()
          : base()
@@ -36,6 +37,8 @@ namespace ExampleGame
       protected override void Initialize()
       {
          // TODO: Add your initialization logic here
+         IMapCreationStrategy<Map> mapCreationStrategy = new RandomRoomsMapCreationStrategy<Map>( 50, 30, 100, 7, 3 );
+         _map = Map.Create( mapCreationStrategy );
 
          base.Initialize();
       }
