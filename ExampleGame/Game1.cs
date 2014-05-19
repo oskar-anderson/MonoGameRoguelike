@@ -93,17 +93,17 @@ namespace ExampleGame
          spriteBatch.Begin( SpriteSortMode.BackToFront, BlendState.AlphaBlend );
 
          int sizeOfSprites = 64;
+         float scale = .25f;
          foreach ( Cell cell in _map.GetAllCells() )
          {
+            var position = new Vector2( cell.X * sizeOfSprites * scale, cell.Y *  sizeOfSprites * scale  );
             if ( cell.IsWalkable )
             {
-               var position = new Vector2( cell.X * sizeOfSprites, cell.Y * sizeOfSprites );
-               spriteBatch.Draw( _floor, position, Color.White );
+               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, new Vector2( scale, scale ), Color.White );
             }
             else
             {
-               var position = new Vector2( cell.X * sizeOfSprites, cell.Y * sizeOfSprites );
-               spriteBatch.Draw( _wall, position, Color.White );
+               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, new Vector2( scale, scale ), Color.White );
             }
          }
 
