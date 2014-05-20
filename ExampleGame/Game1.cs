@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RogueSharp;
+using RogueSharp.Random;
 
 #endregion
 
@@ -56,10 +57,11 @@ namespace ExampleGame
          // TODO: use this.Content to load your game content here
          _floor = Content.Load<Texture2D>( "Floor" );
          _wall = Content.Load<Texture2D>( "Wall" );
+         Cell startingCell = GetRandomEmptyCell();
          _player = new Player
          {
-            X = 10, 
-            Y = 10,
+            X = startingCell.X, 
+            Y = startingCell.Y,
             Scale = 0.25f,
             Sprite = Content.Load<Texture2D>( "Player" )  
          };
@@ -120,6 +122,21 @@ namespace ExampleGame
          spriteBatch.End();
 
          base.Draw( gameTime );
+      }
+
+      private Cell GetRandomEmptyCell()
+      {
+         IRandom random = new DotNetRandom();
+         
+         while( true )
+         {
+            int x = random.Next( 49 );
+            int y = random.Next( 29 );
+            if ( _map.IsWalkable( x, y ) )
+            {
+               return _map.GetCell( x, y );
+            }
+         }
       }
    }
 }
