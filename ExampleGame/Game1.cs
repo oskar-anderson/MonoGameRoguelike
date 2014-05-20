@@ -19,6 +19,7 @@ namespace ExampleGame
       private Texture2D _floor;
       private Texture2D _wall;
       private IMap _map;
+      private Player _player;
 
       public Game1()
          : base()
@@ -55,6 +56,13 @@ namespace ExampleGame
          // TODO: use this.Content to load your game content here
          _floor = Content.Load<Texture2D>( "Floor" );
          _wall = Content.Load<Texture2D>( "Wall" );
+         _player = new Player
+         {
+            X = 10, 
+            Y = 10,
+            Scale = 0.25f,
+            Sprite = Content.Load<Texture2D>( "Player" )  
+         };
       }
 
       /// <summary>
@@ -96,16 +104,18 @@ namespace ExampleGame
          float scale = .25f;
          foreach ( Cell cell in _map.GetAllCells() )
          {
-            var position = new Vector2( cell.X * sizeOfSprites * scale, cell.Y *  sizeOfSprites * scale  );
+            var position = new Vector2( cell.X * sizeOfSprites * scale, cell.Y * sizeOfSprites * scale );
             if ( cell.IsWalkable )
             {
-               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, new Vector2( scale, scale ), Color.White );
+               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, new Vector2( scale, scale ), Color.White, SpriteEffects.None, 0.8f );
             }
             else
             {
-               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, new Vector2( scale, scale ), Color.White );
+               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, new Vector2( scale, scale ), Color.White, SpriteEffects.None, 0.8f );
             }
          }
+
+         _player.Draw( spriteBatch );
 
          spriteBatch.End();
 
