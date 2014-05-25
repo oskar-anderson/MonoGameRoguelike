@@ -90,6 +90,10 @@ namespace ExampleGame
          {
             Exit();
          }
+         else
+         {
+            _player.HandleInput( _inputState );
+         }
 
          base.Update( gameTime );
       }
