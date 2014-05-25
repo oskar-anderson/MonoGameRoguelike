@@ -1,7 +1,6 @@
 ﻿#region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using RogueSharp;
 using RogueSharp.Random;
 
@@ -85,11 +84,12 @@ namespace ExampleGame
       /// <param name="gameTime">Provides a snapshot of timing values.</param>
       protected override void Update( GameTime gameTime )
       {
-         if ( GamePad.GetState( PlayerIndex.One ).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown( Keys.Escape ) )
-            Exit();
-
          // TODO: Add your update logic here
          _inputState.Update();
+         if ( _inputState.IsExitGame( PlayerIndex.One ) )
+         {
+            Exit();
+         }
 
          base.Update( gameTime );
       }
