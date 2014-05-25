@@ -117,17 +117,22 @@ namespace ExampleGame
          foreach ( Cell cell in _map.GetAllCells() )
          {
             var position = new Vector2( cell.X * sizeOfSprites * scale, cell.Y * sizeOfSprites * scale );
-            if ( !cell.IsInFov )
+            if ( !cell.IsExplored )
             {
                continue;
             }
+            Color tint = Color.White;
+            if ( !cell.IsInFov )
+            {
+               tint = Color.Gray;
+            }
             if ( cell.IsWalkable )
             {
-               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, new Vector2( scale, scale ), Color.White, SpriteEffects.None, 0.8f );
+               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, 0.8f );
             }
             else
             {
-               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, new Vector2( scale, scale ), Color.White, SpriteEffects.None, 0.8f );
+               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, 0.8f );
             }
          }
 
@@ -141,6 +146,13 @@ namespace ExampleGame
       private void UpdatePlayerFieldOfView()
       {
          _map.ComputeFov( _player.X, _player.Y, 30, true );
+         foreach ( Cell cell in _map.GetAllCells() )
+         {
+            if( _map.IsInFov( cell.X, cell.Y ) )
+            {
+               _map.SetCellProperties( cell.X, cell.Y, cell.IsTransparent, cell.IsWalkable, true );
+            }
+         }
       }
 
       private Cell GetRandomEmptyCell()
