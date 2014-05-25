@@ -21,13 +21,14 @@ namespace ExampleGame
       private Texture2D _wall;
       private IMap _map;
       private Player _player;
+      private InputState _inputState;
 
       public Game1()
          : base()
       {
          graphics = new GraphicsDeviceManager( this );
          Content.RootDirectory = "Content";
-
+         _inputState = new InputState();
       }
 
       /// <summary>
@@ -88,6 +89,7 @@ namespace ExampleGame
             Exit();
 
          // TODO: Add your update logic here
+         _inputState.Update();
 
          base.Update( gameTime );
       }
