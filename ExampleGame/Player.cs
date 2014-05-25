@@ -16,7 +16,22 @@ namespace ExampleGame
       }
       public void HandleInput( InputState inputState )
       {
-         // Placeholder for input handling code
+         if ( inputState.IsLeft( PlayerIndex.One ) )
+         {
+            X--;
+         }
+         else if ( inputState.IsRight( PlayerIndex.One ) )
+         {
+            X++;
+         }
+         else if ( inputState.IsUp( PlayerIndex.One ) )
+         {
+            Y--;
+         }
+         else if ( inputState.IsDown( PlayerIndex.One ) )
+         {
+            Y++;
+         }
       }
    }
 }
