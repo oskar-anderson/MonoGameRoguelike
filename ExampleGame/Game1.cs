@@ -92,7 +92,10 @@ namespace ExampleGame
          }
          else
          {
-            _player.HandleInput( _inputState, _map );
+            if ( _player.HandleInput( _inputState, _map ) )
+            {
+               UpdatePlayerFieldOfView();
+            }
          }
 
          base.Update( gameTime );
