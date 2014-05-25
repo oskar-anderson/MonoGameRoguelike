@@ -92,7 +92,7 @@ namespace ExampleGame
          }
          else
          {
-            _player.HandleInput( _inputState );
+            _player.HandleInput( _inputState, _map );
          }
 
          base.Update( gameTime );

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RogueSharp;
 
 namespace ExampleGame
 {
@@ -14,23 +15,39 @@ namespace ExampleGame
          float multiplier = Scale * Sprite.Width;
          spriteBatch.Draw( Sprite, new Vector2( X * multiplier, Y * multiplier ), null, null, null, 0.0f, new Vector2( Scale, Scale ), Color.White, SpriteEffects.None, 0.5f );
       }
-      public void HandleInput( InputState inputState )
+      public void HandleInput( InputState inputState, IMap map )
       {
          if ( inputState.IsLeft( PlayerIndex.One ) )
          {
-            X--;
+            int tempX = X - 1;
+            if ( map.IsWalkable( tempX, Y ) )
+            {
+               X = tempX;
+            }
          }
          else if ( inputState.IsRight( PlayerIndex.One ) )
          {
-            X++;
+            int tempX = X + 1;
+            if ( map.IsWalkable( tempX, Y ) )
+            {
+               X = tempX;
+            }
          }
          else if ( inputState.IsUp( PlayerIndex.One ) )
          {
-            Y--;
+            int tempY = Y - 1;
+            if ( map.IsWalkable( X, tempY ) )
+            {
+               Y = tempY;
+            }
          }
          else if ( inputState.IsDown( PlayerIndex.One ) )
          {
-            Y++;
+            int tempY = Y + 1;
+            if ( map.IsWalkable( X, tempY ) )
+            {
+               Y = tempY;
+            }
          }
       }
    }
