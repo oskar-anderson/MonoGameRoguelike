@@ -1,7 +1,6 @@
 ﻿#region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using RogueSharp;
 using RogueSharp.Random;
 
@@ -21,13 +20,14 @@ namespace ExampleGame
       private Texture2D _wall;
       private IMap _map;
       private Player _player;
+      private InputState _inputState;
 
       public Game1()
          : base()
       {
          graphics = new GraphicsDeviceManager( this );
          Content.RootDirectory = "Content";
-
+         _inputState = new InputState();
       }
 
       /// <summary>
@@ -84,10 +84,19 @@ namespace ExampleGame
       /// <param name="gameTime">Provides a snapshot of timing values.</param>
       protected override void Update( GameTime gameTime )
       {
-         if ( GamePad.GetState( PlayerIndex.One ).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown( Keys.Escape ) )
-            Exit();
-
          // TODO: Add your update logic here
+         _inputState.Update();
+         if ( _inputState.IsExitGame( PlayerIndex.One ) )
+         {
+            Exit();
+         }
+         else
+         {
+            if ( _player.HandleInput( _inputState, _map ) )
+            {
+               UpdatePlayerFieldOfView();
+            }
+         }
 
          base.Update( gameTime );
       }
@@ -108,17 +117,22 @@ namespace ExampleGame
          foreach ( Cell cell in _map.GetAllCells() )
          {
             var position = new Vector2( cell.X * sizeOfSprites * scale, cell.Y * sizeOfSprites * scale );
-            if ( !cell.IsInFov )
+            if ( !cell.IsExplored )
             {
                continue;
             }
+            Color tint = Color.White;
+            if ( !cell.IsInFov )
+            {
+               tint = Color.Gray;
+            }
             if ( cell.IsWalkable )
             {
-               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, new Vector2( scale, scale ), Color.White, SpriteEffects.None, 0.8f );
+               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, 0.8f );
             }
             else
             {
-               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, new Vector2( scale, scale ), Color.White, SpriteEffects.None, 0.8f );
+               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, 0.8f );
             }
          }
 
@@ -132,6 +146,13 @@ namespace ExampleGame
       private void UpdatePlayerFieldOfView()
       {
          _map.ComputeFov( _player.X, _player.Y, 30, true );
+         foreach ( Cell cell in _map.GetAllCells() )
+         {
+            if( _map.IsInFov( cell.X, cell.Y ) )
+            {
+               _map.SetCellProperties( cell.X, cell.Y, cell.IsTransparent, cell.IsWalkable, true );
+            }
+         }
       }
 
       private Cell GetRandomEmptyCell()
