@@ -35,6 +35,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AggressiveEnemy.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="InputState.cs" />
