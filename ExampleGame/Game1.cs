@@ -179,12 +179,10 @@ namespace ExampleGame
 
       private Cell GetRandomEmptyCell()
       {
-         IRandom random = new DotNetRandom();
-         
          while( true )
          {
-            int x = random.Next( 49 );
-            int y = random.Next( 29 );
+            int x = Global.Random.Next( 49 );
+            int y = Global.Random.Next( 29 );
             if ( _map.IsWalkable( x, y ) )
             {
                return _map.GetCell( x, y );

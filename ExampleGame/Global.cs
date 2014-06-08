@@ -1,4 +1,6 @@
-﻿namespace ExampleGame
+﻿using RogueSharp.Random;
+
+namespace ExampleGame
 {
    public enum GameStates
    {
@@ -9,6 +11,7 @@
    }
    public class Global
    {
+      public static readonly IRandom Random = new DotNetRandom();
       public static GameStates GameState { get; set; }
    }
 }
