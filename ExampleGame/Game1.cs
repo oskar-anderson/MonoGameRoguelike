@@ -20,6 +20,7 @@ namespace ExampleGame
       private Texture2D _wall;
       private IMap _map;
       private Player _player;
+      private AggressiveEnemy _aggressiveEnemy;
       private InputState _inputState;
 
       public Game1()
@@ -66,6 +67,14 @@ namespace ExampleGame
             Sprite = Content.Load<Texture2D>( "Player" )  
          };
          UpdatePlayerFieldOfView();
+         startingCell = GetRandomEmptyCell();
+         _aggressiveEnemy = new AggressiveEnemy()
+         {
+            X = startingCell.X, 
+            Y = startingCell.Y,
+            Scale = 0.25f,
+            Sprite = Content.Load<Texture2D>( "Hound" )
+         };
          Global.GameState = GameStates.PlayerTurn;
       }
 
@@ -149,6 +158,7 @@ namespace ExampleGame
          }
 
          _player.Draw( spriteBatch );
+         _aggressiveEnemy.Draw( spriteBatch );  
 
          spriteBatch.End();
 
