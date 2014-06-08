@@ -22,5 +22,11 @@ namespace ExampleGame
          spriteBatch.Draw( Sprite, new Vector2( X * multiplier, Y * multiplier ), null, null, null, 0.0f, new Vector2( Scale, Scale ), Color.White, SpriteEffects.None, 0.5f );
          _path.Draw( spriteBatch );
       }
+      public void Update()
+      {
+         _path.CreateFrom( X, Y ); 
+         X = _path.FirstCell.X;
+         Y = _path.FirstCell.Y;
+      }
    }
 }

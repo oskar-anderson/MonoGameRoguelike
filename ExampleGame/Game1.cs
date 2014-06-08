@@ -115,9 +115,16 @@ namespace ExampleGame
          }
          else
          {
-            if ( _player.HandleInput( _inputState, _map ) )
+            if ( Global.GameState == GameStates.PlayerTurn 
+               && _player.HandleInput( _inputState, _map ) )
             {
                UpdatePlayerFieldOfView();
+               Global.GameState = GameStates.EnemyTurn;
+            }
+            if ( Global.GameState == GameStates.EnemyTurn )
+            {
+               _aggressiveEnemy.Update();
+               Global.GameState = GameStates.PlayerTurn;
             }
          }
 
