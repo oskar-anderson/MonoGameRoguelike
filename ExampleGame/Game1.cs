@@ -61,16 +61,16 @@ namespace ExampleGame
          Cell startingCell = GetRandomEmptyCell();
          _player = new Player
          {
-            X = startingCell.X, 
+            X = startingCell.X,
             Y = startingCell.Y,
             Scale = 0.25f,
-            Sprite = Content.Load<Texture2D>( "Player" )  
+            Sprite = Content.Load<Texture2D>( "Player" )
          };
          UpdatePlayerFieldOfView();
          startingCell = GetRandomEmptyCell();
          _aggressiveEnemy = new AggressiveEnemy()
          {
-            X = startingCell.X, 
+            X = startingCell.X,
             Y = startingCell.Y,
             Scale = 0.25f,
             Sprite = Content.Load<Texture2D>( "Hound" )
@@ -173,7 +173,7 @@ namespace ExampleGame
          _map.ComputeFov( _player.X, _player.Y, 30, true );
          foreach ( Cell cell in _map.GetAllCells() )
          {
-            if( _map.IsInFov( cell.X, cell.Y ) )
+            if ( _map.IsInFov( cell.X, cell.Y ) )
             {
                _map.SetCellProperties( cell.X, cell.Y, cell.IsTransparent, cell.IsWalkable, true );
             }
@@ -182,7 +182,7 @@ namespace ExampleGame
 
       private Cell GetRandomEmptyCell()
       {
-         while( true )
+         while ( true )
          {
             int x = Global.Random.Next( 49 );
             int y = Global.Random.Next( 29 );
