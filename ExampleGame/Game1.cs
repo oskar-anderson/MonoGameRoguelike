@@ -158,7 +158,10 @@ namespace ExampleGame
          }
 
          _player.Draw( spriteBatch );
-         _aggressiveEnemy.Draw( spriteBatch );  
+         if ( Global.GameState == GameStates.Debugging || _map.IsInFov( _aggressiveEnemy.X, _aggressiveEnemy.Y ) )
+         {
+            _aggressiveEnemy.Draw( spriteBatch );
+         }
 
          spriteBatch.End();
 
