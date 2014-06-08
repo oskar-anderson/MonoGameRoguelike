@@ -66,6 +66,7 @@ namespace ExampleGame
             Sprite = Content.Load<Texture2D>( "Player" )  
          };
          UpdatePlayerFieldOfView();
+         Global.GameState = GameStates.PlayerTurn;
       }
 
       /// <summary>
@@ -89,6 +90,17 @@ namespace ExampleGame
          if ( _inputState.IsExitGame( PlayerIndex.One ) )
          {
             Exit();
+         }
+         else if ( _inputState.IsSpace( PlayerIndex.One ) )
+         {
+            if ( Global.GameState == GameStates.PlayerTurn )
+            {
+               Global.GameState = GameStates.Debugging;
+            }
+            else if ( Global.GameState == GameStates.Debugging )
+            {
+               Global.GameState = GameStates.PlayerTurn;
+            }
          }
          else
          {
@@ -117,12 +129,12 @@ namespace ExampleGame
          foreach ( Cell cell in _map.GetAllCells() )
          {
             var position = new Vector2( cell.X * sizeOfSprites * scale, cell.Y * sizeOfSprites * scale );
-            if ( !cell.IsExplored )
+            if ( !cell.IsExplored && Global.GameState != GameStates.Debugging )
             {
                continue;
             }
             Color tint = Color.White;
-            if ( !cell.IsInFov )
+            if ( !cell.IsInFov && Global.GameState != GameStates.Debugging )
             {
                tint = Color.Gray;
             }
