@@ -20,6 +20,7 @@ namespace ExampleGame
       private Texture2D _wall;
       private IMap _map;
       private Player _player;
+      private AggressiveEnemy _aggressiveEnemy;
       private InputState _inputState;
 
       public Game1()
@@ -60,12 +61,23 @@ namespace ExampleGame
          Cell startingCell = GetRandomEmptyCell();
          _player = new Player
          {
-            X = startingCell.X, 
+            X = startingCell.X,
             Y = startingCell.Y,
             Scale = 0.25f,
-            Sprite = Content.Load<Texture2D>( "Player" )  
+            Sprite = Content.Load<Texture2D>( "Player" )
          };
          UpdatePlayerFieldOfView();
+         startingCell = GetRandomEmptyCell();
+         var pathFromAggressiveEnemy = new PathToPlayer( _player, _map, Content.Load<Texture2D>( "White" ) );
+         pathFromAggressiveEnemy.CreateFrom( startingCell.X, startingCell.Y ); 
+         _aggressiveEnemy = new AggressiveEnemy( pathFromAggressiveEnemy )
+         {
+            X = startingCell.X,
+            Y = startingCell.Y,
+            Scale = 0.25f,
+            Sprite = Content.Load<Texture2D>( "Hound" )
+         };
+         Global.GameState = GameStates.PlayerTurn;
       }
 
       /// <summary>
@@ -90,11 +102,29 @@ namespace ExampleGame
          {
             Exit();
          }
+         else if ( _inputState.IsSpace( PlayerIndex.One ) )
+         {
+            if ( Global.GameState == GameStates.PlayerTurn )
+            {
+               Global.GameState = GameStates.Debugging;
+            }
+            else if ( Global.GameState == GameStates.Debugging )
+            {
+               Global.GameState = GameStates.PlayerTurn;
+            }
+         }
          else
          {
-            if ( _player.HandleInput( _inputState, _map ) )
+            if ( Global.GameState == GameStates.PlayerTurn 
+               && _player.HandleInput( _inputState, _map ) )
             {
                UpdatePlayerFieldOfView();
+               Global.GameState = GameStates.EnemyTurn;
+            }
+            if ( Global.GameState == GameStates.EnemyTurn )
+            {
+               _aggressiveEnemy.Update();
+               Global.GameState = GameStates.PlayerTurn;
             }
          }
 
@@ -117,12 +147,12 @@ namespace ExampleGame
          foreach ( Cell cell in _map.GetAllCells() )
          {
             var position = new Vector2( cell.X * sizeOfSprites * scale, cell.Y * sizeOfSprites * scale );
-            if ( !cell.IsExplored )
+            if ( !cell.IsExplored && Global.GameState != GameStates.Debugging )
             {
                continue;
             }
             Color tint = Color.White;
-            if ( !cell.IsInFov )
+            if ( !cell.IsInFov && Global.GameState != GameStates.Debugging )
             {
                tint = Color.Gray;
             }
@@ -137,6 +167,10 @@ namespace ExampleGame
          }
 
          _player.Draw( spriteBatch );
+         if ( Global.GameState == GameStates.Debugging || _map.IsInFov( _aggressiveEnemy.X, _aggressiveEnemy.Y ) )
+         {
+            _aggressiveEnemy.Draw( spriteBatch );
+         }
 
          spriteBatch.End();
 
@@ -148,7 +182,7 @@ namespace ExampleGame
          _map.ComputeFov( _player.X, _player.Y, 30, true );
          foreach ( Cell cell in _map.GetAllCells() )
          {
-            if( _map.IsInFov( cell.X, cell.Y ) )
+            if ( _map.IsInFov( cell.X, cell.Y ) )
             {
                _map.SetCellProperties( cell.X, cell.Y, cell.IsTransparent, cell.IsWalkable, true );
             }
@@ -157,12 +191,10 @@ namespace ExampleGame
 
       private Cell GetRandomEmptyCell()
       {
-         IRandom random = new DotNetRandom();
-         
-         while( true )
+         while ( true )
          {
-            int x = random.Next( 49 );
-            int y = random.Next( 29 );
+            int x = Global.Random.Next( 49 );
+            int y = Global.Random.Next( 29 );
             if ( _map.IsWalkable( x, y ) )
             {
                return _map.GetCell( x, y );
