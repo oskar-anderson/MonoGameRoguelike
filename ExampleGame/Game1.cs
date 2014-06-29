@@ -63,7 +63,6 @@ namespace ExampleGame
          {
             X = startingCell.X,
             Y = startingCell.Y,
-            Scale = 0.25f,
             Sprite = Content.Load<Texture2D>( "Player" )
          };
          UpdatePlayerFieldOfView();
@@ -74,7 +73,6 @@ namespace ExampleGame
          {
             X = startingCell.X,
             Y = startingCell.Y,
-            Scale = 0.25f,
             Sprite = Content.Load<Texture2D>( "Hound" )
          };
          Global.GameState = GameStates.PlayerTurn;
@@ -143,10 +141,9 @@ namespace ExampleGame
          spriteBatch.Begin( SpriteSortMode.BackToFront, BlendState.AlphaBlend );
 
          int sizeOfSprites = 64;
-         float scale = .25f;
          foreach ( Cell cell in _map.GetAllCells() )
          {
-            var position = new Vector2( cell.X * sizeOfSprites * scale, cell.Y * sizeOfSprites * scale );
+            var position = new Vector2( cell.X * sizeOfSprites, cell.Y * sizeOfSprites );
             if ( !cell.IsExplored && Global.GameState != GameStates.Debugging )
             {
                continue;
@@ -158,11 +155,11 @@ namespace ExampleGame
             }
             if ( cell.IsWalkable )
             {
-               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, LayerDepth.Cells );
+               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, Vector2.One, tint, SpriteEffects.None, LayerDepth.Cells );
             }
             else
             {
-               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, LayerDepth.Cells );
+               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, Vector2.One, tint, SpriteEffects.None, LayerDepth.Cells );
             }
          }
 
