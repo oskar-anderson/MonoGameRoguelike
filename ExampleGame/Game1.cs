@@ -40,7 +40,7 @@ namespace ExampleGame
       protected override void Initialize()
       {
          // TODO: Add your initialization logic here
-         IMapCreationStrategy<Map> mapCreationStrategy = new RandomRoomsMapCreationStrategy<Map>( 50, 30, 100, 7, 3 );
+         IMapCreationStrategy<Map> mapCreationStrategy = new RandomRoomsMapCreationStrategy<Map>( Global.MapWidth, Global.MapHeight, 100, 7, 3 );
          _map = Map.Create( mapCreationStrategy );
 
          base.Initialize();
@@ -140,10 +140,9 @@ namespace ExampleGame
          // TODO: Add your drawing code here
          spriteBatch.Begin( SpriteSortMode.BackToFront, BlendState.AlphaBlend );
 
-         int sizeOfSprites = 64;
          foreach ( Cell cell in _map.GetAllCells() )
          {
-            var position = new Vector2( cell.X * sizeOfSprites, cell.Y * sizeOfSprites );
+            var position = new Vector2( cell.X * Global.SpriteWidth, cell.Y * Global.SpriteHeight );
             if ( !cell.IsExplored && Global.GameState != GameStates.Debugging )
             {
                continue;
