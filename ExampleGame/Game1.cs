@@ -158,11 +158,11 @@ namespace ExampleGame
             }
             if ( cell.IsWalkable )
             {
-               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, 0.8f );
+               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, LayerDepth.Cells );
             }
             else
             {
-               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, 0.8f );
+               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, LayerDepth.Cells );
             }
          }
 
