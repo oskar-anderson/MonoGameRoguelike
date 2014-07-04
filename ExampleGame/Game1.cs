@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RogueSharp;
-using RogueSharp.Random;
 
 #endregion
 
@@ -40,6 +39,8 @@ namespace ExampleGame
       protected override void Initialize()
       {
          // TODO: Add your initialization logic here
+         Global.Camera.ViewportWidth = graphics.GraphicsDevice.Viewport.Width;
+         Global.Camera.ViewportHeight = graphics.GraphicsDevice.Viewport.Height;
          IMapCreationStrategy<Map> mapCreationStrategy = new RandomRoomsMapCreationStrategy<Map>( Global.MapWidth, Global.MapHeight, 100, 7, 3 );
          _map = Map.Create( mapCreationStrategy );
 
@@ -66,6 +67,7 @@ namespace ExampleGame
             Sprite = Content.Load<Texture2D>( "Player" )
          };
          UpdatePlayerFieldOfView();
+         Global.Camera.CenterOn( startingCell ); 
          startingCell = GetRandomEmptyCell();
          var pathFromAggressiveEnemy = new PathToPlayer( _player, _map, Content.Load<Texture2D>( "White" ) );
          pathFromAggressiveEnemy.CreateFrom( startingCell.X, startingCell.Y ); 
@@ -96,6 +98,7 @@ namespace ExampleGame
       {
          // TODO: Add your update logic here
          _inputState.Update();
+         Global.Camera.HandleInput( _inputState, PlayerIndex.One );
          if ( _inputState.IsExitGame( PlayerIndex.One ) )
          {
             Exit();
@@ -117,6 +120,7 @@ namespace ExampleGame
                && _player.HandleInput( _inputState, _map ) )
             {
                UpdatePlayerFieldOfView();
+               Global.Camera.CenterOn( _map.GetCell( _player.X, _player.Y ) );
                Global.GameState = GameStates.EnemyTurn;
             }
             if ( Global.GameState == GameStates.EnemyTurn )
@@ -138,7 +142,7 @@ namespace ExampleGame
          GraphicsDevice.Clear( Color.Black );
 
          // TODO: Add your drawing code here
-         spriteBatch.Begin( SpriteSortMode.BackToFront, BlendState.AlphaBlend );
+         spriteBatch.Begin( SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, Global.Camera.TranslationMatrix );
 
          foreach ( Cell cell in _map.GetAllCells() )
          {
