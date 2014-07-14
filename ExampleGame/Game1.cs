@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RogueSharp;
-using RogueSharp.Random;
 
 #endregion
 
@@ -40,7 +39,9 @@ namespace ExampleGame
       protected override void Initialize()
       {
          // TODO: Add your initialization logic here
-         IMapCreationStrategy<Map> mapCreationStrategy = new RandomRoomsMapCreationStrategy<Map>( 50, 30, 100, 7, 3 );
+         Global.Camera.ViewportWidth = graphics.GraphicsDevice.Viewport.Width;
+         Global.Camera.ViewportHeight = graphics.GraphicsDevice.Viewport.Height;
+         IMapCreationStrategy<Map> mapCreationStrategy = new RandomRoomsMapCreationStrategy<Map>( Global.MapWidth, Global.MapHeight, 100, 7, 3 );
          _map = Map.Create( mapCreationStrategy );
 
          base.Initialize();
@@ -63,10 +64,10 @@ namespace ExampleGame
          {
             X = startingCell.X,
             Y = startingCell.Y,
-            Scale = 0.25f,
             Sprite = Content.Load<Texture2D>( "Player" )
          };
          UpdatePlayerFieldOfView();
+         Global.Camera.CenterOn( startingCell ); 
          startingCell = GetRandomEmptyCell();
          var pathFromAggressiveEnemy = new PathToPlayer( _player, _map, Content.Load<Texture2D>( "White" ) );
          pathFromAggressiveEnemy.CreateFrom( startingCell.X, startingCell.Y ); 
@@ -74,7 +75,6 @@ namespace ExampleGame
          {
             X = startingCell.X,
             Y = startingCell.Y,
-            Scale = 0.25f,
             Sprite = Content.Load<Texture2D>( "Hound" )
          };
          Global.GameState = GameStates.PlayerTurn;
@@ -98,6 +98,7 @@ namespace ExampleGame
       {
          // TODO: Add your update logic here
          _inputState.Update();
+         Global.Camera.HandleInput( _inputState, PlayerIndex.One );
          if ( _inputState.IsExitGame( PlayerIndex.One ) )
          {
             Exit();
@@ -119,6 +120,7 @@ namespace ExampleGame
                && _player.HandleInput( _inputState, _map ) )
             {
                UpdatePlayerFieldOfView();
+               Global.Camera.CenterOn( _map.GetCell( _player.X, _player.Y ) );
                Global.GameState = GameStates.EnemyTurn;
             }
             if ( Global.GameState == GameStates.EnemyTurn )
@@ -140,13 +142,11 @@ namespace ExampleGame
          GraphicsDevice.Clear( Color.Black );
 
          // TODO: Add your drawing code here
-         spriteBatch.Begin( SpriteSortMode.BackToFront, BlendState.AlphaBlend );
+         spriteBatch.Begin( SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, Global.Camera.TranslationMatrix );
 
-         int sizeOfSprites = 64;
-         float scale = .25f;
          foreach ( Cell cell in _map.GetAllCells() )
          {
-            var position = new Vector2( cell.X * sizeOfSprites * scale, cell.Y * sizeOfSprites * scale );
+            var position = new Vector2( cell.X * Global.SpriteWidth, cell.Y * Global.SpriteHeight );
             if ( !cell.IsExplored && Global.GameState != GameStates.Debugging )
             {
                continue;
@@ -158,11 +158,11 @@ namespace ExampleGame
             }
             if ( cell.IsWalkable )
             {
-               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, 0.8f );
+               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, Vector2.One, tint, SpriteEffects.None, LayerDepth.Cells );
             }
             else
             {
-               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, new Vector2( scale, scale ), tint, SpriteEffects.None, 0.8f );
+               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, Vector2.One, tint, SpriteEffects.None, LayerDepth.Cells );
             }
          }
 
