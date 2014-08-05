@@ -71,7 +71,7 @@ namespace ExampleGame
          startingCell = GetRandomEmptyCell();
          var pathFromAggressiveEnemy = new PathToPlayer( _player, _map, Content.Load<Texture2D>( "White" ) );
          pathFromAggressiveEnemy.CreateFrom( startingCell.X, startingCell.Y ); 
-         _aggressiveEnemy = new AggressiveEnemy( pathFromAggressiveEnemy )
+         _aggressiveEnemy = new AggressiveEnemy( _map, pathFromAggressiveEnemy )
          {
             X = startingCell.X,
             Y = startingCell.Y,
