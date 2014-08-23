@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RogueSharp;
+using RogueSharp.Random;
 
 #endregion
 
@@ -65,7 +66,12 @@ namespace ExampleGame
          {
             X = startingCell.X,
             Y = startingCell.Y,
-            Sprite = Content.Load<Texture2D>( "Player" )
+            Sprite = Content.Load<Texture2D>( "Player" ),
+            ArmorClass = 15,
+            AttackBonus = 1,
+            Damage = new Dice( new List<IDie> { new Die( Global.Random, 4 ), new Die( Global.Random, 4 ) } ),
+            Health = 50,
+            Name = "Mr. Rogue"
          };
          UpdatePlayerFieldOfView();
          Global.Camera.CenterOn( startingCell );
@@ -197,10 +203,16 @@ namespace ExampleGame
             Cell enemyCell = GetRandomEmptyCell();
             var pathFromAggressiveEnemy = new PathToPlayer( _player, _map, Content.Load<Texture2D>( "White" ) );
             pathFromAggressiveEnemy.CreateFrom( enemyCell.X, enemyCell.Y );
+
             var enemy = new AggressiveEnemy( _map, pathFromAggressiveEnemy ) {
                X = enemyCell.X,
                Y = enemyCell.Y,
-               Sprite = Content.Load<Texture2D>( "Hound" )
+               Sprite = Content.Load<Texture2D>( "Hound" ),
+               ArmorClass = 10,
+               AttackBonus = 0,
+               Damage = new Dice( new List<IDie> { new Die( Global.Random, 3 ) } ),
+               Health = 10,
+               Name = "Hunting Hound"
             };
             _aggressiveEnemies.Add( enemy );
          }
