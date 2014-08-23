@@ -17,7 +17,15 @@ namespace ExampleGame
             int tempX = X - 1;
             if ( map.IsWalkable( tempX, Y ) )
             {
-               X = tempX;
+               var enemy = Global.CombatManager.EnemyAt( tempX, Y );
+               if ( enemy == null )
+               {
+                  X = tempX;
+               }
+               else
+               {
+                  Global.CombatManager.Attack( this, enemy );
+               }
                return true;
             }
          }
@@ -26,7 +34,15 @@ namespace ExampleGame
             int tempX = X + 1;
             if ( map.IsWalkable( tempX, Y ) )
             {
-               X = tempX;
+               var enemy = Global.CombatManager.EnemyAt( tempX, Y );
+               if ( enemy == null )
+               {
+                  X = tempX;
+               }
+               else
+               {
+                  Global.CombatManager.Attack( this, enemy );
+               }
                return true;
             }
          }
@@ -35,7 +51,15 @@ namespace ExampleGame
             int tempY = Y - 1;
             if ( map.IsWalkable( X, tempY ) )
             {
-               Y = tempY;
+               var enemy = Global.CombatManager.EnemyAt( X, tempY );
+               if ( enemy == null )
+               {
+                  Y = tempY;
+               }
+               else
+               {
+                  Global.CombatManager.Attack( this, enemy );
+               }
                return true;
             }
          }
@@ -44,7 +68,15 @@ namespace ExampleGame
             int tempY = Y + 1;
             if ( map.IsWalkable( X, tempY ) )
             {
-               Y = tempY;
+               var enemy = Global.CombatManager.EnemyAt( X, tempY );
+               if ( enemy == null )
+               {
+                  Y = tempY;
+               }
+               else
+               {
+                  Global.CombatManager.Attack( this, enemy );
+               }
                return true;
             }
          }

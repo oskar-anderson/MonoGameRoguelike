@@ -33,8 +33,15 @@ namespace ExampleGame
          if ( _isAwareOfPlayer )
          {
             _path.CreateFrom( X, Y );
-            X = _path.FirstCell.X;
-            Y = _path.FirstCell.Y;
+            if ( Global.CombatManager.IsPlayerAt( _path.FirstCell.X, _path.FirstCell.Y ) )
+            {    
+               Global.CombatManager.Attack( this, Global.CombatManager.FigureAt( _path.FirstCell.X, _path.FirstCell.Y ) );
+            }
+            else
+            {
+               X = _path.FirstCell.X;
+               Y = _path.FirstCell.Y;
+            }
          }
       }
    }
