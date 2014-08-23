@@ -77,6 +77,8 @@ namespace ExampleGame
          Global.Camera.CenterOn( startingCell );
 
          AddAggressiveEnemies( 10 );
+         Global.CombatManager = new CombatManager( _player, _aggressiveEnemies );
+
          Global.GameState = GameStates.PlayerTurn;
       }
 
