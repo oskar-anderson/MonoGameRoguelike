@@ -4,15 +4,11 @@ using RogueSharp;
 
 namespace ExampleGame
 {
-   public class AggressiveEnemy
+   public class AggressiveEnemy : Figure
    {
       private readonly PathToPlayer _path;
       private readonly IMap _map;
       private bool _isAwareOfPlayer;
-
-      public int X { get; set; }
-      public int Y { get; set; }
-      public Texture2D Sprite { get; set; }
       
       public AggressiveEnemy( IMap map, PathToPlayer path )
       {

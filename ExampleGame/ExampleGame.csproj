@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="AggressiveEnemy.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Figure.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="InputState.cs" />

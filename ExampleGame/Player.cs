@@ -4,11 +4,8 @@ using RogueSharp;
 
 namespace ExampleGame
 {
-   public class Player
+   public class Player : Figure
    {
-      public int X { get; set; }
-      public int Y { get; set; }
-      public Texture2D Sprite { get; set; }
       public void Draw( SpriteBatch spriteBatch )
       {
          spriteBatch.Draw( Sprite, new Vector2( X * Sprite.Width, Y * Sprite.Height ), null, null, null, 0.0f, Vector2.One, Color.White, SpriteEffects.None, LayerDepth.Figures );
