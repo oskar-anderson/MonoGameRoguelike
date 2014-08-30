@@ -1,7 +1,9 @@
 ﻿#region Using Statements
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RogueSharp;
+using RogueSharp.Random;
 
 #endregion
 
@@ -19,7 +21,7 @@ namespace ExampleGame
       private Texture2D _wall;
       private IMap _map;
       private Player _player;
-      private AggressiveEnemy _aggressiveEnemy;
+      private List<AggressiveEnemy> _aggressiveEnemies = new List<AggressiveEnemy>();
       private InputState _inputState;
 
       public Game1()
@@ -64,19 +66,19 @@ namespace ExampleGame
          {
             X = startingCell.X,
             Y = startingCell.Y,
-            Sprite = Content.Load<Texture2D>( "Player" )
+            Sprite = Content.Load<Texture2D>( "Player" ),
+            ArmorClass = 15,
+            AttackBonus = 1,
+            Damage = new Dice( new List<IDie> { new Die( Global.Random, 4 ), new Die( Global.Random, 4 ) } ),
+            Health = 50,
+            Name = "Mr. Rogue"
          };
          UpdatePlayerFieldOfView();
-         Global.Camera.CenterOn( startingCell ); 
-         startingCell = GetRandomEmptyCell();
-         var pathFromAggressiveEnemy = new PathToPlayer( _player, _map, Content.Load<Texture2D>( "White" ) );
-         pathFromAggressiveEnemy.CreateFrom( startingCell.X, startingCell.Y ); 
-         _aggressiveEnemy = new AggressiveEnemy( pathFromAggressiveEnemy )
-         {
-            X = startingCell.X,
-            Y = startingCell.Y,
-            Sprite = Content.Load<Texture2D>( "Hound" )
-         };
+         Global.Camera.CenterOn( startingCell );
+
+         AddAggressiveEnemies( 10 );
+         Global.CombatManager = new CombatManager( _player, _aggressiveEnemies );
+
          Global.GameState = GameStates.PlayerTurn;
       }
 
@@ -125,7 +127,10 @@ namespace ExampleGame
             }
             if ( Global.GameState == GameStates.EnemyTurn )
             {
-               _aggressiveEnemy.Update();
+               foreach ( var enemy in _aggressiveEnemies )
+               {
+                  enemy.Update();
+               }
                Global.GameState = GameStates.PlayerTurn;
             }
          }
@@ -167,9 +172,13 @@ namespace ExampleGame
          }
 
          _player.Draw( spriteBatch );
-         if ( Global.GameState == GameStates.Debugging || _map.IsInFov( _aggressiveEnemy.X, _aggressiveEnemy.Y ) )
+
+         foreach ( var enemy in _aggressiveEnemies )
          {
-            _aggressiveEnemy.Draw( spriteBatch );
+            if ( Global.GameState == GameStates.Debugging || _map.IsInFov( enemy.X, enemy.Y ) )
+            {
+               enemy.Draw( spriteBatch );
+            }
          }
 
          spriteBatch.End();
@@ -186,6 +195,28 @@ namespace ExampleGame
             {
                _map.SetCellProperties( cell.X, cell.Y, cell.IsTransparent, cell.IsWalkable, true );
             }
+         }
+      }
+
+      private void AddAggressiveEnemies( int numberOfEnemies )
+      {
+         for ( int i = 0; i < numberOfEnemies; i++ )
+         {
+            Cell enemyCell = GetRandomEmptyCell();
+            var pathFromAggressiveEnemy = new PathToPlayer( _player, _map, Content.Load<Texture2D>( "White" ) );
+            pathFromAggressiveEnemy.CreateFrom( enemyCell.X, enemyCell.Y );
+
+            var enemy = new AggressiveEnemy( _map, pathFromAggressiveEnemy ) {
+               X = enemyCell.X,
+               Y = enemyCell.Y,
+               Sprite = Content.Load<Texture2D>( "Hound" ),
+               ArmorClass = 10,
+               AttackBonus = 0,
+               Damage = new Dice( new List<IDie> { new Die( Global.Random, 3 ) } ),
+               Health = 10,
+               Name = "Hunting Hound"
+            };
+            _aggressiveEnemies.Add( enemy );
          }
       }
 

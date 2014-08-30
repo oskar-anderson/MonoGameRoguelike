@@ -1,18 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RogueSharp;
 
 namespace ExampleGame
 {
-   public class AggressiveEnemy
+   public class AggressiveEnemy : Figure
    {
       private readonly PathToPlayer _path;
-
-      public int X { get; set; }
-      public int Y { get; set; }
-      public Texture2D Sprite { get; set; }
+      private readonly IMap _map;
+      private bool _isAwareOfPlayer;
       
-      public AggressiveEnemy( PathToPlayer path )
+      public AggressiveEnemy( IMap map, PathToPlayer path )
       {
+         _map = map;
          _path = path;
       }
       public void Draw( SpriteBatch spriteBatch )
@@ -22,9 +22,27 @@ namespace ExampleGame
       }
       public void Update()
       {
-         _path.CreateFrom( X, Y ); 
-         X = _path.FirstCell.X;
-         Y = _path.FirstCell.Y;
+         if ( !_isAwareOfPlayer )
+         {
+            if ( _map.IsInFov( X, Y ) )
+            {
+               _isAwareOfPlayer = true;
+            }
+         }
+
+         if ( _isAwareOfPlayer )
+         {
+            _path.CreateFrom( X, Y );
+            if ( Global.CombatManager.IsPlayerAt( _path.FirstCell.X, _path.FirstCell.Y ) )
+            {    
+               Global.CombatManager.Attack( this, Global.CombatManager.FigureAt( _path.FirstCell.X, _path.FirstCell.Y ) );
+            }
+            else
+            {
+               X = _path.FirstCell.X;
+               Y = _path.FirstCell.Y;
+            }
+         }
       }
    }
 }

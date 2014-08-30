@@ -4,11 +4,8 @@ using RogueSharp;
 
 namespace ExampleGame
 {
-   public class Player
+   public class Player : Figure
    {
-      public int X { get; set; }
-      public int Y { get; set; }
-      public Texture2D Sprite { get; set; }
       public void Draw( SpriteBatch spriteBatch )
       {
          spriteBatch.Draw( Sprite, new Vector2( X * Sprite.Width, Y * Sprite.Height ), null, null, null, 0.0f, Vector2.One, Color.White, SpriteEffects.None, LayerDepth.Figures );
@@ -20,7 +17,15 @@ namespace ExampleGame
             int tempX = X - 1;
             if ( map.IsWalkable( tempX, Y ) )
             {
-               X = tempX;
+               var enemy = Global.CombatManager.EnemyAt( tempX, Y );
+               if ( enemy == null )
+               {
+                  X = tempX;
+               }
+               else
+               {
+                  Global.CombatManager.Attack( this, enemy );
+               }
                return true;
             }
          }
@@ -29,7 +34,15 @@ namespace ExampleGame
             int tempX = X + 1;
             if ( map.IsWalkable( tempX, Y ) )
             {
-               X = tempX;
+               var enemy = Global.CombatManager.EnemyAt( tempX, Y );
+               if ( enemy == null )
+               {
+                  X = tempX;
+               }
+               else
+               {
+                  Global.CombatManager.Attack( this, enemy );
+               }
                return true;
             }
          }
@@ -38,7 +51,15 @@ namespace ExampleGame
             int tempY = Y - 1;
             if ( map.IsWalkable( X, tempY ) )
             {
-               Y = tempY;
+               var enemy = Global.CombatManager.EnemyAt( X, tempY );
+               if ( enemy == null )
+               {
+                  Y = tempY;
+               }
+               else
+               {
+                  Global.CombatManager.Attack( this, enemy );
+               }
                return true;
             }
          }
@@ -47,7 +68,15 @@ namespace ExampleGame
             int tempY = Y + 1;
             if ( map.IsWalkable( X, tempY ) )
             {
-               Y = tempY;
+               var enemy = Global.CombatManager.EnemyAt( X, tempY );
+               if ( enemy == null )
+               {
+                  Y = tempY;
+               }
+               else
+               {
+                  Global.CombatManager.Attack( this, enemy );
+               }
                return true;
             }
          }
