@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using RogueSharp.Random;
+using RogueSharp.DiceNotation;
 
 namespace ExampleGame
 {
@@ -18,10 +17,9 @@ namespace ExampleGame
 
       public void Attack( Figure attacker, Figure defender )
       {
-         var attackDie = new Die( Global.Random, 20 );
-         if ( attackDie.Roll() + attacker.AttackBonus >= defender.ArmorClass )
+         if ( Dice.Roll( "d20" ) + attacker.AttackBonus >= defender.ArmorClass )
          {
-            int damage = attacker.Damage.Roll().Sum();
+            int damage = attacker.Damage.Roll().Value;
             defender.Health -= damage;
             Debug.WriteLine( "{0} hit {1} for {2} and he has {3} health remaining.", attacker.Name, defender.Name, damage, defender.Health );
             if ( defender.Health <= 0 )
