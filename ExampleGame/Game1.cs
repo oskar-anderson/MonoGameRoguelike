@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RogueSharp;
-using RogueSharp.Random;
+using RogueSharp.DiceNotation;
 
 #endregion
 
@@ -69,7 +69,7 @@ namespace ExampleGame
             Sprite = Content.Load<Texture2D>( "Player" ),
             ArmorClass = 15,
             AttackBonus = 1,
-            Damage = new Dice( new List<IDie> { new Die( Global.Random, 4 ), new Die( Global.Random, 4 ) } ),
+            Damage = Dice.Parse( "2d4" ),
             Health = 50,
             Name = "Mr. Rogue"
          };
@@ -212,7 +212,7 @@ namespace ExampleGame
                Sprite = Content.Load<Texture2D>( "Hound" ),
                ArmorClass = 10,
                AttackBonus = 0,
-               Damage = new Dice( new List<IDie> { new Die( Global.Random, 3 ) } ),
+               Damage = Dice.Parse( "d3" ),
                Health = 10,
                Name = "Hunting Hound"
             };
