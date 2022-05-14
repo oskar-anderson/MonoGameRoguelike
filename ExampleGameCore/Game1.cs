@@ -25,7 +25,6 @@ namespace ExampleGame
       private InputState _inputState;
 
       public Game1()
-         : base()
       {
          graphics = new GraphicsDeviceManager( this );
          Content.RootDirectory = "Content";
@@ -59,14 +58,14 @@ namespace ExampleGame
          spriteBatch = new SpriteBatch( GraphicsDevice );
 
          // TODO: use this.Content to load your game content here
-         _floor = Content.Load<Texture2D>( "Floor" );
-         _wall = Content.Load<Texture2D>( "Wall" );
+         _floor = Content.Load<Texture2D>( "builtContent/Floor" );
+         _wall = Content.Load<Texture2D>( "builtContent/Wall" );
          Cell startingCell = GetRandomEmptyCell();
          _player = new Player
          {
             X = startingCell.X,
             Y = startingCell.Y,
-            Sprite = Content.Load<Texture2D>( "Player" ),
+            Sprite = Content.Load<Texture2D>( "builtContent/Player" ),
             ArmorClass = 15,
             AttackBonus = 1,
             Damage = Dice.Parse( "2d4" ),
@@ -163,11 +162,31 @@ namespace ExampleGame
             }
             if ( cell.IsWalkable )
             {
-               spriteBatch.Draw( _floor, position, null, null, null, 0.0f, Vector2.One, tint, SpriteEffects.None, LayerDepth.Cells );
+               spriteBatch.Draw( 
+                  texture: _floor, 
+                  position: position, 
+                  sourceRectangle: null, 
+                  color: tint, 
+                  rotation: 0.0f, 
+                  origin: Vector2.Zero, 
+                  scale: 1f, 
+                  effects: Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 
+                  layerDepth: LayerDepth.Cells
+               );
             }
             else
             {
-               spriteBatch.Draw( _wall, position, null, null, null, 0.0f, Vector2.One, tint, SpriteEffects.None, LayerDepth.Cells );
+               spriteBatch.Draw(
+                  texture: _wall,
+                  position: position,
+                  sourceRectangle: null,
+                  color: tint,
+                  rotation: 0.0f,
+                  origin: Vector2.Zero,
+                  scale: 1f,
+                  effects: Microsoft.Xna.Framework.Graphics.SpriteEffects.None,
+                  layerDepth: LayerDepth.Cells
+               );
             }
          }
 
@@ -203,13 +222,13 @@ namespace ExampleGame
          for ( int i = 0; i < numberOfEnemies; i++ )
          {
             Cell enemyCell = GetRandomEmptyCell();
-            var pathFromAggressiveEnemy = new PathToPlayer( _player, _map, Content.Load<Texture2D>( "White" ) );
+            var pathFromAggressiveEnemy = new PathToPlayer( _player, _map, Content.Load<Texture2D>( "builtContent/White" ) );
             pathFromAggressiveEnemy.CreateFrom( enemyCell.X, enemyCell.Y );
 
             var enemy = new AggressiveEnemy( _map, pathFromAggressiveEnemy ) {
                X = enemyCell.X,
                Y = enemyCell.Y,
-               Sprite = Content.Load<Texture2D>( "Hound" ),
+               Sprite = Content.Load<Texture2D>( "builtContent/Hound" ),
                ArmorClass = 10,
                AttackBonus = 0,
                Damage = Dice.Parse( "d3" ),

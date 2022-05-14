@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExampleGame;
+
 #endregion
 
-namespace ExampleGame
+namespace ExampleGameCore
 {
-#if WINDOWS || LINUX
+
     /// <summary>
     /// The main class.
     /// </summary>
@@ -22,5 +24,5 @@ namespace ExampleGame
                 game.Run();
         }
     }
-#endif
+
 }

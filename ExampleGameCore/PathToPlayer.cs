@@ -41,7 +41,18 @@ namespace ExampleGame
                if ( cell != null )
                {
                   float multiplier = _sprite.Width;
-                  spriteBatch.Draw( _sprite, new Vector2( cell.X * multiplier, cell.Y * multiplier ), null, null, null, 0.0f, Vector2.One, Color.Blue * .2f, SpriteEffects.None, LayerDepth.Paths );
+
+                  spriteBatch.Draw( 
+                     texture: _sprite, 
+                     position: new Vector2( cell.X * multiplier, cell.Y * multiplier ), 
+                     sourceRectangle: null, 
+                     color: Microsoft.Xna.Framework.Color.Blue * .2f, 
+                     rotation: 0.0f, 
+                     origin: Vector2.Zero, 
+                     scale: 1f, 
+                     effects: Microsoft.Xna.Framework.Graphics.SpriteEffects.None, 
+                     layerDepth: LayerDepth.Paths 
+                     );
                }
             }
          }

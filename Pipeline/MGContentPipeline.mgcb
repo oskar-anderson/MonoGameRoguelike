@@ -1,0 +1,100 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin
+/intermediateDir:obj
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+
+#begin ../ExampleGameCore/Content/builtContent/Floor.xnb
+/importer:
+/processor:
+/build:../ExampleGameCore/Content/builtContent/Floor.xnb;builtContent/Floor.xnb
+
+#begin ../ExampleGameCore/Content/builtContent/Hound.xnb
+/importer:
+/processor:
+/build:../ExampleGameCore/Content/builtContent/Hound.xnb;builtContent/Hound.xnb
+
+#begin ../ExampleGameCore/Content/builtContent/Player.xnb
+/importer:
+/processor:
+/build:../ExampleGameCore/Content/builtContent/Player.xnb;builtContent/Player.xnb
+
+#begin ../ExampleGameCore/Content/builtContent/Wall.xnb
+/importer:
+/processor:
+/build:../ExampleGameCore/Content/builtContent/Wall.xnb;builtContent/Wall.xnb
+
+#begin ../ExampleGameCore/Content/builtContent/White.xnb
+/importer:
+/processor:
+/build:../ExampleGameCore/Content/builtContent/White.xnb;builtContent/White.xnb
+
+#begin ../ExampleGameCore/Content/rawContent/Floor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../ExampleGameCore/Content/rawContent/Floor.png;Floor.png
+
+#begin ../ExampleGameCore/Content/rawContent/Hound.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../ExampleGameCore/Content/rawContent/Hound.png;Hound.png
+
+#begin ../ExampleGameCore/Content/rawContent/Player.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../ExampleGameCore/Content/rawContent/Player.png;Player.png
+
+#begin ../ExampleGameCore/Content/rawContent/Wall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../ExampleGameCore/Content/rawContent/Wall.png;Wall.png
+
+#begin ../ExampleGameCore/Content/rawContent/White.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../ExampleGameCore/Content/rawContent/White.png;White.png
+

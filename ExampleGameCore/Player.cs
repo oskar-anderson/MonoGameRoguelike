@@ -8,7 +8,17 @@ namespace ExampleGame
    {
       public void Draw( SpriteBatch spriteBatch )
       {
-         spriteBatch.Draw( Sprite, new Vector2( X * Sprite.Width, Y * Sprite.Height ), null, null, null, 0.0f, Vector2.One, Color.White, SpriteEffects.None, LayerDepth.Figures );
+         spriteBatch.Draw(
+            texture: Sprite,
+            position: new Vector2(X * Sprite.Width, Y * Sprite.Height),
+            sourceRectangle: null,
+            color: Color.White,
+            rotation: 0.0f,
+            origin: Vector2.Zero,
+            scale: 1f,
+            effects: Microsoft.Xna.Framework.Graphics.SpriteEffects.None,
+            layerDepth: LayerDepth.Figures
+         );
       }
       public bool HandleInput( InputState inputState, IMap map )
       {
